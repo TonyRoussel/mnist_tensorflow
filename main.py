@@ -51,3 +51,17 @@ y = tf.nn.softmax(tf.matmul(x, W) + b)
 # The cost function to be minimized during training can be specified just as easily.
 # Our cost function will be the cross-entropy between the target and the model's prediction.
 cross_entropy = -tf.reduce_sum(y_ * tf.log(y))
+
+# Now that the model is describe, we can use TensorFlow to train it.
+# "For this example, we will use steepest gradient descent, with a step length of 0.01,
+# to descend the cross entropy."
+# So this line will "add new operations to the computation graph.
+# These operations included ones to compute gradients, compute parameter update steps,
+# and apply update steps to the parameters."
+train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)
+
+# "The returned operation train_step, when run, will apply the gradient descent updates to the parameters.
+# Training the model can therefore be accomplished by repeatedly running train_step."
+for i in xrange(1000):
+    batch = mnist.train.next_batch(50)
+    train_step.run(feed_dict={x: batch[0], y_: batch[1]})
