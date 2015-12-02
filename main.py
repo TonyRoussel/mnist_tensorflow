@@ -27,3 +27,17 @@ x = tf.placeholder("float", shape=[None, 784])
 # "The output classes (y_) will also consist of a 2d tensor, where each row is a one-hot 10-dimensional vector"
 y_ = tf.placeholder("float", shape=[None, 10])
 
+# We define the weights W and biases b for our model. To handle it we use Variable,
+# which "is a value that lives in TF computation graph. It can be used and even
+# modified by the computation"
+# Both parameter are initialize as tensor full of zeros.
+# "W is a 784x10 matrix (because we have 784 input features and 10 outputs), and b is
+# a 10-dimentional vector (because we have 10 classes).
+W = tf.Variable(tf.zeros([784, 10]))
+b = tf.Variable(tf.zeros([10]))
+
+# To use Variable within a session, they must be initialized using that session.
+# "This step takes the initial values (in this case tensors full of zeros) that have
+# already been specified, and assigns them to each Variable. This can be done for all
+# Variables at once."
+sess.run(tf.initialize_all_variables())
