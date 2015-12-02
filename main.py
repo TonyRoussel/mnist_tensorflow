@@ -41,3 +41,13 @@ b = tf.Variable(tf.zeros([10]))
 # already been specified, and assigns them to each Variable. This can be done for all
 # Variables at once."
 sess.run(tf.initialize_all_variables())
+
+# Implementation of the regression model. We multiply the images (where each images is a vector
+# since we flatten it).
+# So we multiply "the input images x by the weight matrix W, add the bias b and compute the softmax
+# probabilities that are assigned to each class."
+y = tf.nn.softmax(tf.matmul(x, W) + b)
+
+# The cost function to be minimized during training can be specified just as easily.
+# Our cost function will be the cross-entropy between the target and the model's prediction.
+cross_entropy = -tf.reduce_sum(y_ * tf.log(y))
