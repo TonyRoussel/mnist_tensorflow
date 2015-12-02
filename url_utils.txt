@@ -1,0 +1,2 @@
+http://www.tensorflow.org/api_docs/python/index.html
+https://www.tensorflow.org/tutorials/mnist/pros/index.html
