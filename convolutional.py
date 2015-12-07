@@ -32,6 +32,11 @@ def conv2d(x, W):
 def max_pool_2x2(x):
     return tf.nn.max_pool(x, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
 
+
+
+mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
+x = tf.placeholder("float", shape=[None, 784])
+
 # "We can now implement our first layer
 # It will consist of convolution, followed by max pooling. The convolutional will compute
 # 32 features for each 5x5 patch. Its weight tensor will have a shape of [5, 5, 1, 32].
