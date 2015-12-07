@@ -87,14 +87,23 @@ W_fc2 = weight_variable([1024, 10])
 b_fc2 = bias_variable([10])
 y_conv = tf.nn.softmax(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)
 
-sess.run(tf.initialize_all_variables())
+sess = tf.InteractiveSession()
+
+# "How well does this model do? To train and evaluate it we will use code that is nearly
+# identical to that for the simple one layer SoftMax network above.
+# The differences are that: we will replace the steepest gradient descent optimizer with
+# the more sophisticated ADAM optimizer; we will include the additional parameter
+# keep_prob in feed_dict to control the dropout rate"
+cross_entropy = -tf.reduce_sum(y_ * tf.log(y_conv))
+train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
+correct_prediction = tf.equal(tf.argmax(y_conv, 1), tf.argmax(y_, 1))
+accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
+sess.run((tf.initialize_all_variables()))
 for i in xrange(1000):
     batch = mnist.train.next_batch(50)
-    train_step.run(feed_dict={x: batch[0], y_: batch[1]})
     if i % 100 == 0:
-        print cross_entropy.eval({x: mnist.train.images, y_: mnist.train.labels}, sess)
+        train_accuracy = accuracy.eval(feed_dict = {x: batch[0], y_: batch[1], keep_prob: 1.0})
+        print "Step %d, training accuracy %g" % (i, train_accuracy)
+    train_step.run(feed_dict = {x: batch[0], y_: batch[1], keep_prob: 0.5})
 
-
-correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
-accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
-print accuracy.eval(feed_dict = {x: mnist.test.images, y_ : mnist.test.labels})
+print "Test accuracy %g" % accuracy.eval(feed_dict = {x: mnist.test.images, y_: mnist.test.labels, keep_prob: 1.0})
