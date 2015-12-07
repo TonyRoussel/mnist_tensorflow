@@ -33,11 +33,23 @@ def conv2d(x, W):
 def max_pool_2x2(x):
     return tf.nn.max_pool(x, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
 
-# Data importation via google data import script.
-# mnist is a class which store training, validation and testing sets as numpy arrays.
-mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
+# "We can now implement our first layer
+# It will consist of convolution, followed by max pooling. The convolutional will compute
+# 32 features for each 5x5 patch. Its weight tensor will have a shape of [5, 5, 1, 32].
+# The first two dimensions are the patch size, the next is the number of input channels,
+# and the last is the number of output channels. We will also have a bias vector with a
+# component for each output channel."
+# W_conv1 = weight_variable([patch_size_x, patch_size_y, num_input_channel, num_output_channel])
+W_conv1 = weight_variable([5, 5, 1, 32])
+b_conv1 = bias_variable([32])
 
-sess = tf.InteractiveSession()
+# "To apply the layer, we first reshape x to a 4d tensor, with the second and third dimensions 
+# corresponding to image width and height, and the final dimension corresponding to the number of color channels."
+x_image = tf.reshape(x, [-1, 28, 28, 1])
+
+# "We then convolve x_image with the weight tensor, add the bias, apply the ReLU function, and finally max pool."
+h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1)
+h_pool1 = max_pool_2x2(h_conv1)
 
 
 
