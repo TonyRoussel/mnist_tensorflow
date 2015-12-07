@@ -72,6 +72,13 @@ b_fc1 = bias_variable([1024])
 h_pool2_flat = tf.reshape(h_pool2, [-1, 7 * 7 * 6])
 h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
 
+# "To reduce overfitting, we will apply dropout before the readout layer.
+# We create a placeholder for the probability that a neuron's output is kept during dropout.
+# This allows us to turn dropout on during training, and turn it off during testing.
+# TensorFlow's tf.nn.dropout op automatically handles scaling neuron outputs in addition
+# to masking them, so dropout just works without any additional scaling."
+keep_prob = tf.placeholder("float")
+h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
 
 
 
