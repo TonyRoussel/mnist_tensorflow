@@ -81,6 +81,10 @@ keep_prob = tf.placeholder("float")
 h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
 
 
+# Last layer declaration with softmax activation like the one layer version
+W_fc2 = weight_variable([1024, 10])
+b_fc2 = bias_variable([10])
+y_conv = tf.nn.softmax(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)
 
 sess.run(tf.initialize_all_variables())
 for i in xrange(1000):
