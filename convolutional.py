@@ -5,6 +5,22 @@ import tensorflow as tf
 import pprint as pp
 
 
+# For this model we'll need "to create a lot of weights and biases"
+# "One should generally initialize weights with a small amount of noise for 
+# symmetry breaking, and to prevent 0 gradients. Since we're using ReLU neurons,
+# it is also good practice to initialize them with a slightly positive
+# initial bias to avoid "dead neurons.""
+# "Instead of doing this repeatedly while we build the model, let's create
+# two handy functions to do it for us"
+def weight_variable(shape):
+    initial = tf.truncated_normal(shape, stddev=0.1)
+    return tf.variable(initial)
+
+def bias_variable(shape):
+    initial = tf.constant(0.1, shape=shape)
+    return tf.Variable(initial)
+
+
 # Data importation via google data import script.
 # mnist is a class which store training, validation and testing sets as numpy arrays.
 mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
