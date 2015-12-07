@@ -63,36 +63,16 @@ train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)
 
 # "The returned operation train_step, when run, will apply the gradient descent updates to the parameters.
 # Training the model can therefore be accomplished by repeatedly running train_step."
-for i in xrange(10000):
+for i in xrange(1000):
     batch = mnist.train.next_batch(50)
     train_step.run(feed_dict={x: batch[0], y_: batch[1]})
-    if i % 500 == 0:
-        # pp.pprint("type(mnist.train.images)")
-        # pp.pprint(type(mnist.train.images))
-        # # pp.pprint("dir(mnist.train.images)")
-        # # pp.pprint(dir(mnist.train.images))
-        # pp.pprint("mnist.train.images.size")
-        # pp.pprint(mnist.train.images.size)
-
-        # pp.pprint("type(mnist.train.labels)")
-        # pp.pprint(type(mnist.train.labels))
-        # # pp.pprint("dir(mnist.train.labels)")
-        # # pp.pprint(dir(mnist.train.labels))
-        # pp.pprint("mnist.train.labels.size")
-        # pp.pprint(mnist.train.labels.size)
-
-        # pp.pprint("type(batch[0])")
-        # pp.pprint(type(batch[0]))
-        # # pp.pprint("dir(batch[0])")
-        # # pp.pprint(dir(batch[0]))
-        # pp.pprint("batch[0].size")
-        # pp.pprint(batch[0].size)
-
-        # pp.pprint("type(batch[1])")
-        # pp.pprint(type(batch[1]))
-        # # pp.pprint("dir(batch[1])")
-        # # pp.pprint(dir(batch[0]))
-        # pp.pprint("batch[1].size")
-        # pp.pprint(batch[1].size)
-        # exit(1)
+    if i % 100 == 0:
         print cross_entropy.eval({x: mnist.train.images, y_: mnist.train.labels}, sess)
+
+
+# We can now check the result of our model.
+# tf.armax "gives you the index of the highest entry in a tensor along some axis and
+# tf.equal "check if our prediction matches the truth."
+correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
+accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
+print accuracy.eval(feed_dict = {x: mnist.test.images, y_ : mnist.test.labels})
