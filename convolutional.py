@@ -36,6 +36,7 @@ def max_pool_2x2(x):
 
 mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
 x = tf.placeholder("float", shape=[None, 784])
+y_ = tf.placeholder("float", shape=[None, 10])
 
 # "We can now implement our first layer
 # It will consist of convolution, followed by max pooling. The convolutional will compute
