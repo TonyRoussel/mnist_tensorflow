@@ -14,12 +14,11 @@ import pprint as pp
 # two handy functions to do it for us"
 def weight_variable(shape):
     initial = tf.truncated_normal(shape, stddev=0.1)
-    return tf.variable(initial)
+    return tf.Variable(initial)
 
 def bias_variable(shape):
     initial = tf.constant(0.1, shape=shape)
     return tf.Variable(initial)
-
 
 # "TensorFlow also gives us a lot of flexibility in convolution and pooling operations.
 # How do we handle the boundaries? What is our stride size?
